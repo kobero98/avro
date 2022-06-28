@@ -258,28 +258,19 @@
       </build>
     </profile>
 
+    <!-- ba-dua -->
     <profile>
-      <id>ba-dua-coverage</id>
+      <id>badua</id>
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
       <properties>
-        <!-- Use a stable version istead of SNAPSHOT one -->
         <ba-dua.version>0.6.0</ba-dua.version>
+        <ba-dua.groupId>br.usp.each.saeg</ba-dua.groupId>
         <argLine>-javaagent:target/dependency/ba-dua-agent-rt-${ba-dua.version}-all.jar -Doutput.file=target/badua.ser</argLine>
       </properties>
-      <!-- Needed for generate the report -->
-      <dependencies>
-        <dependency>
-          <groupId>br.usp.each.saeg</groupId>
-          <artifactId>ba-dua-cli</artifactId>
-          <version>${ba-dua.version}</version>
-        </dependency>
-      </dependencies>
       <build>
         <plugins>
-
-          <!-- Copy ba-dua-agent-rt from .m2 directory to target/dependency -->
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-dependency-plugin</artifactId>
@@ -292,7 +283,7 @@
                 <configuration>
                   <artifactItems>
                     <artifactItem>
-                      <groupId>br.usp.each.saeg</groupId>
+                      <groupId>${ba-dua.groupId}</groupId>
                       <artifactId>ba-dua-agent-rt</artifactId>
                       <classifier>all</classifier>
                       <version>${ba-dua.version}</version>
@@ -302,8 +293,6 @@
               </execution>
             </executions>
           </plugin>
-
-          <!-- Generate report in xml format -->
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
@@ -332,7 +321,16 @@
           </plugin>
         </plugins>
       </build>
+      <dependencies>
+        <dependency>
+          <groupId>${ba-dua.groupId}</groupId>
+          <artifactId>ba-dua-cli</artifactId>
+          <version>${ba-dua.version}</version>
+        </dependency>
+      </dependencies>
     </profile>
+
+
 
     <profile>
       <id>mutation-testing</id>
