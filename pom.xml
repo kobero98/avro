@@ -55,10 +55,7 @@
     <surefire.version>3.0.0-M5</surefire.version>
     <failsafe.version>2.21.0</failsafe.version>
 
-    <sonar.organization>kobero98
-
-
-    </sonar.organization>
+    <sonar.organization>kobero98</sonar.organization>
     <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     <sonar.coverage.jacoco.xmlReportPaths>../test-jacoco/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
   </properties>
