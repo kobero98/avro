@@ -67,6 +67,26 @@
           </archive>
         </configuration>
       </plugin>
+      <!-- Added by me -->
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.12</version>
+        <executions>
+          <execution>
+            <id>add-integration-test-sources</id>
+            <phase>generate-test-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>src/main/test/java/org/apache/avro/reflect</source>
+              </sources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -96,6 +116,28 @@
               <systemPropertyVariables>
                 <org.apache.avro.fastread>true</org.apache.avro.fastread>
               </systemPropertyVariables>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <!-- Added by me -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>${failsafe.version}</version>
+        <executions>
+          <execution>
+            <id>integration-tests</id>
+            <goals>
+              <goal>integration-test</goal>
+              <goal>verify</goal>
+            </goals>
+            <configuration>
+              <includes>
+                <include>**/*IT.java</include>
+              </includes>
+              <skipTests>false</skipTests>
+              <skipITs>false</skipITs>
             </configuration>
           </execution>
         </executions>
@@ -215,6 +257,124 @@
         </plugins>
       </build>
     </profile>
+
+    <profile>
+      <id>ba-dua-coverage</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <!-- Use a stable version istead of SNAPSHOT one -->
+        <ba-dua.version>0.6.0</ba-dua.version>
+        <argLine>-javaagent:target/dependency/ba-dua-agent-rt-${ba-dua.version}-all.jar -Doutput.file=target/badua.ser</argLine>
+      </properties>
+      <!-- Needed for generate the report -->
+      <dependencies>
+        <dependency>
+          <groupId>br.usp.each.saeg</groupId>
+          <artifactId>ba-dua-cli</artifactId>
+          <version>${ba-dua.version}</version>
+        </dependency>
+      </dependencies>
+      <build>
+        <plugins>
+
+          <!-- Copy ba-dua-agent-rt from .m2 directory to target/dependency -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <version>2.10</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>copy</goal>
+                </goals>
+                <configuration>
+                  <artifactItems>
+                    <artifactItem>
+                      <groupId>br.usp.each.saeg</groupId>
+                      <artifactId>ba-dua-agent-rt</artifactId>
+                      <classifier>all</classifier>
+                      <version>${ba-dua.version}</version>
+                    </artifactItem>
+                  </artifactItems>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+
+          <!-- Generate report in xml format -->
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>1.5.0</version>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>java</goal>
+                </goals>
+                <phase>verify</phase>
+                <configuration>
+                  <mainClass>br.usp.each.saeg.badua.cli.Report</mainClass>
+                  <arguments>
+                    <argument>-input</argument>
+                    <argument>${project.build.directory}/badua.ser</argument>
+                    <argument>-classes</argument>
+                    <argument>${project.build.outputDirectory}</argument>
+                    <argument>-show-classes</argument>
+                    <argument>-show-methods</argument>
+                    <argument>-xml</argument>
+                    <argument>${project.build.directory}/badua.xml</argument>
+                  </arguments>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>mutation-testing</id>
+      <activation>
+        <activeByDefault>false</activeByDefault>
+      </activation>
+      <properties>
+        <withHistory>true</withHistory>
+        <pitest.version>1.8.0</pitest.version>
+      </properties>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-maven</artifactId>
+            <version>${pitest.version}</version>
+            <configuration>
+              <targetClasses>
+                <param>org.apache.avro.Schema</param>
+                <param>org.apache.avro.reflect.ReflectData</param>
+              </targetClasses>
+              <targetTests>
+                <param>org.apache.avro.SchemaTest</param>
+                <param>org.apache.avro.reflect.ReflectDataSchemaIT</param>
+              </targetTests>
+              <avoidCallsTo>
+                <avoidCallsTo>org.slf4j</avoidCallsTo>
+              </avoidCallsTo>
+            </configuration>
+            <executions>
+              <execution>
+                <id>Generate PIT report</id>
+                <phase>test-compile</phase>
+                <goals>
+                  <goal>mutationCoverage</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 
   <dependencies>
@@ -251,4 +411,5 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+
 </project>

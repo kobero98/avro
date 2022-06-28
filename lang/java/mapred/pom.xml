@@ -113,7 +113,7 @@
             <!-- compile only test protocols and schemas and place them in the classpath. -->
             <configuration>
               <sourceDirectory></sourceDirectory>
-              <testSourceDirectory>${parent.project.basedir}/../../../../share/test/schemas/</testSourceDirectory>
+              <testSourceDirectory>${parent.project.basedir}/../../../../share/schemas/</testSourceDirectory>
               <testOutputDirectory>${project.build.directory}/generated-test-sources/java</testOutputDirectory>
             </configuration>
           </execution>
@@ -215,9 +215,9 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-        <groupId>org.xerial.snappy</groupId>
-        <artifactId>snappy-java</artifactId>
-        <scope>test</scope>
+      <groupId>org.xerial.snappy</groupId>
+      <artifactId>snappy-java</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 </project>
