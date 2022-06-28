@@ -1,8 +1,5 @@
-package avro;
+package org.apache.avro;
 
-import org.apache.avro.AvroRuntimeException;
-import org.apache.avro.Schema;
-import org.apache.avro.SchemaCompatibility;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
