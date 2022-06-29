@@ -20,6 +20,8 @@ public class SchemaCompatibilityUpgrade1Test {
   private Schema.Field expectedOutput;
   private boolean isExceptionExpected;
 
+  private boolean test1;
+
   public enum ParamListField {
     NULL, VOID, VALID, DUPLICATEDALIAS
   }
@@ -48,9 +50,7 @@ public class SchemaCompatibilityUpgrade1Test {
         { false, Schema.Type.UNION, ParamListField.VALID, ParamField.NULL },
         { false, Schema.Type.ENUM, ParamListField.VALID, ParamField.NULL },
         { false, Schema.Type.NULL, ParamListField.VALID, ParamField.NULL },
-        { false, Schema.Type.INT, ParamListField.NULL, ParamField.NULL },
-
-    });
+        { false, Schema.Type.INT, ParamListField.NULL, ParamField.NULL }, });
   }
 
   public void configure(boolean nullable, Schema.Type type, ParamListField listField, ParamField field) {
@@ -134,11 +134,11 @@ public class SchemaCompatibilityUpgrade1Test {
       this.isExceptionExpected = true;
     else
       this.isExceptionExpected = false;
-
   }
 
   public SchemaCompatibilityUpgrade1Test(boolean nullable, Schema.Type type, ParamListField listField,
       ParamField field) {
+    this.test1 = true;
     configure(nullable, type, listField, field);
   }
 
@@ -154,15 +154,7 @@ public class SchemaCompatibilityUpgrade1Test {
     } catch (NullPointerException e) {
       Assert.assertEquals(true, this.isExceptionExpected);
     }
+
   }
-  /*
-   * @Test public void testcheckReaderWriterCompatibility() { Schema s =
-   * Schema.create(Schema.Type.STRING); Schema s1 =
-   * Schema.create(Schema.Type.STRING);
-   * SchemaCompatibility.SchemaPairCompatibility f =
-   * SchemaCompatibility.checkReaderWriterCompatibility(s, s1);
-   * Assert.assertEquals(SchemaCompatibility.SchemaCompatibilityType.COMPATIBLE,
-   * f.getType()); }
-   *
-   */
+
 }

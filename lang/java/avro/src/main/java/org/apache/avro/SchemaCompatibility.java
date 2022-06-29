@@ -76,7 +76,6 @@ public class SchemaCompatibility {
     default:
       throw new AvroRuntimeException("Unknown compatibility: " + compatibility);
     }
-
     return new SchemaPairCompatibility(compatibility, reader, writer, message);
   }
 

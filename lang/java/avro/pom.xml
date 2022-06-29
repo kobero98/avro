@@ -349,11 +349,11 @@
             <version>${pitest.version}</version>
             <configuration>
               <targetClasses>
-                <param>org.apache.avro.Schema</param>
+                <param>org.apache.avro.SchemaCompatibility</param>
                 <param>org.apache.avro.reflect.ReflectData</param>
               </targetClasses>
               <targetTests>
-                <param>org.apache.avro.SchemaTest</param>
+                <param>org.apache.avro.SchemaCompatibilityBaduaTest</param>
                 <param>org.apache.avro.reflect.ReflectDataSchemaIT</param>
               </targetTests>
               <avoidCallsTo>
