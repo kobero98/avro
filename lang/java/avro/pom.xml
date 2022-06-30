@@ -333,7 +333,7 @@
 
 
     <profile>
-      <id>mutation-testing</id>
+      <id>pit</id>
       <activation>
         <activeByDefault>false</activeByDefault>
       </activation>
@@ -354,7 +354,14 @@
               </targetClasses>
               <targetTests>
                 <param>org.apache.avro.SchemaCompatibilityBaduaTest</param>
-                <param>org.apache.avro.reflect.ReflectDataSchemaIT</param>
+                <param>org.apache.avro.SchemaCompatibility2Test</param>
+                <param>org.apache.avro.SchemaCompatibilityTest</param>
+                <param>org.apache.avro.SchemaCompatibilityUpgrade1Test</param>
+                <param>org.apache.avro.SchemaCompatibilityPitTest</param>
+
+                <param>org.apache.avro.reflect.ReflectionDataBaduaTest</param>
+                <param>org.apache.avro.reflect.ReflectionDataTest</param>
+                <param>org.apache.avro.reflect.ReflectionDataUpdateTest</param>
               </targetTests>
               <avoidCallsTo>
                 <avoidCallsTo>org.slf4j</avoidCallsTo>
