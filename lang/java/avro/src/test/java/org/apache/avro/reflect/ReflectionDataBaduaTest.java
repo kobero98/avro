@@ -56,6 +56,7 @@ public class ReflectionDataBaduaTest {
         { ParamType.Fixed, NamesType.NOT_PRESENT_NULL }, // 12
         { ParamType.Fixed, NamesType.NOT_PRESENT_VAL }, // 13
         { ParamType.Fixed, NamesType.NULL_VAL }, // 14
+
     });
 
   }

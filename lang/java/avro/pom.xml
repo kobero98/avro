@@ -362,6 +362,7 @@
                 <param>org.apache.avro.reflect.ReflectionDataBaduaTest</param>
                 <param>org.apache.avro.reflect.ReflectionDataTest</param>
                 <param>org.apache.avro.reflect.ReflectionDataUpdateTest</param>
+                <param>org.apache.avro.reflect.ReflectionDataPitTest</param>
               </targetTests>
               <avoidCallsTo>
                 <avoidCallsTo>org.slf4j</avoidCallsTo>
